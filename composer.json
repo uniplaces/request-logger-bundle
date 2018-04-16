@@ -1,0 +1,20 @@
+{
+    "name": "uniplaces/request-logger-bundle",
+    "description": "Symfony bundle to log information about the request like method, uri, latency",
+    "type": "bundle",
+    "require": {
+        "symfony/http-kernel": "^4.0",
+        "psr/log": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Uniplaces",
+            "email": "eng@uniplaces.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
