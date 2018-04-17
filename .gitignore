@@ -1,19 +1,10 @@
-###> symfony/framework-bundle ###
 /.env
 /public/bundles/
 /var/
 /vendor/
 /data/
-###< symfony/framework-bundle ###
-
-###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
 /build/
-###< symfony/phpunit-bridge ###
-
-###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
-
 /.idea
