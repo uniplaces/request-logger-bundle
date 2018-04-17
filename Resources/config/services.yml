@@ -1,0 +1,12 @@
+services:
+    request_logger_bundle.request_logger:
+        class: Uniplaces\RequestLoggerBundle\RequestLoggerEventListener
+        tags:
+            -
+                name: kernel.event_listener
+                event: kernel.request
+                method: onRequest
+            -
+                name: kernel.event_listener
+                event: kernel.terminate
+                method: onTerminate
