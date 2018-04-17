@@ -3,6 +3,7 @@
 namespace Uniplaces\RequestLoggerBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 
@@ -38,7 +39,7 @@ final class RequestLoggerEventListener
             return;
         }
 
-        $this->requestStartTime = time();
+        $this->requestStartTime = microtime(true);
     }
 
     /**
@@ -46,14 +47,67 @@ final class RequestLoggerEventListener
      */
     public function onTerminate(PostResponseEvent $event): void
     {
-        $latency = time() - $this->requestStartTime;
-        $this->logger->info(
-            'What should I put here chines?',
+        $latency = (int)((microtime(true) - $this->requestStartTime) * 1000);
+
+        $request = $event->getRequest();
+        $method = $request->getMethod();
+        $path = $request->getBasePath();
+        $contentType = $request->getContentType();
+        $clientIp = $request->getClientIp();
+        $userAgent = $request->headers->get('User-Agent');
+
+        $response = $event->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        $queryString = $request->getQueryString();
+        $httpVersion = $request->getProtocolVersion();
+        $responseSize = (int)$response->headers->get('Content-Length');
+
+        $message = sprintf(
+            '%s "%s %s/%s %s %d %d"',
+            $clientIp,
+            $method,
+            $path,
+            $queryString,
+            $httpVersion,
+            $statusCode,
+            $responseSize
+        );
+
+        $this->logRequest(
+            $statusCode,
+            $message,
             [
-                'uri' => $event->getRequest()->getRequestUri(),
-                'method' => $event->getRequest()->getMethod(),
+                'method' => $method,
+                'path' => $path,
+                'content-type' => $contentType,
                 'latency' => $latency,
-                'status_code' => $event->getResponse()->getStatusCode()
-            ]);
+                'client-ip' => $clientIp,
+                'status_code' => $statusCode,
+                'user-agent' => $userAgent
+            ]
+        );
+    }
+
+    /**
+     * @param int    $statusCode
+     * @param string $message
+     * @param array  $fields
+     */
+    private function logRequest(int $statusCode, string $message, array $fields): void
+    {
+        if ($statusCode < Response::HTTP_BAD_REQUEST) {
+            $this->logger->info($message, $fields);
+
+            return;
+        }
+
+        if ($statusCode < Response::HTTP_INTERNAL_SERVER_ERROR) {
+            $this->logger->warning($message, $fields);
+
+            return;
+        }
+
+        $this->logger->error($message, $fields);
     }
 }

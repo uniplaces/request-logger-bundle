@@ -57,7 +57,16 @@ class RequestLoggerEventListenerTest extends TestCase
             ->method('info')
             ->with(
                 $this->isType('string'),
-                $this->isType('array')
+                $this->callback(function ($fields) {
+                    return is_array($fields)
+                        && array_key_exists('method', $fields)
+                        && array_key_exists('path', $fields)
+                        && array_key_exists('content-type', $fields)
+                        && array_key_exists('latency', $fields)
+                        && array_key_exists('client-ip', $fields)
+                        && array_key_exists('status_code', $fields)
+                        && array_key_exists('user-agent', $fields);
+                })
             );
 
         /** @var LoggerInterface $loggerMock */
@@ -65,6 +74,35 @@ class RequestLoggerEventListenerTest extends TestCase
         $this->dispatcher->addListener(KernelEvents::TERMINATE, [$listener, 'onTerminate']);
 
         $event = new PostResponseEvent($this->kernel, new Request(), new Response());
+        $this->dispatcher->dispatch(KernelEvents::TERMINATE, $event);
+    }
+
+    public function testOnTerminateWIthErrors(): void
+    {
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock
+            ->expects($this->once())
+            ->method('error')
+            ->with(
+                $this->isType('string'),
+                $this->callback(function ($fields) {
+                    return is_array($fields)
+                        && array_key_exists('method', $fields)
+                        && array_key_exists('path', $fields)
+                        && array_key_exists('content-type', $fields)
+                        && array_key_exists('latency', $fields)
+                        && array_key_exists('client-ip', $fields)
+                        && array_key_exists('status_code', $fields)
+                        && array_key_exists('user-agent', $fields);
+                })
+            );
+
+        /** @var LoggerInterface $loggerMock */
+        $listener = new RequestLoggerEventListener($loggerMock);
+        $this->dispatcher->addListener(KernelEvents::TERMINATE, [$listener, 'onTerminate']);
+
+        $response = new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+        $event = new PostResponseEvent($this->kernel, new Request(), $response);
         $this->dispatcher->dispatch(KernelEvents::TERMINATE, $event);
     }
 }

@@ -1,6 +1,8 @@
 services:
     request_logger_bundle.request_logger:
         class: Uniplaces\RequestLoggerBundle\RequestLoggerEventListener
+        arguments:
+            logger: "@monolog.logger"
         tags:
             -
                 name: kernel.event_listener
