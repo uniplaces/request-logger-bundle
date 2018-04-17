@@ -62,17 +62,7 @@ final class RequestLoggerEventListener
         $queryString = $request->getQueryString();
         $httpVersion = $request->getProtocolVersion();
         $responseSize = (int)$response->headers->get('Content-Length');
-
-        $message = sprintf(
-            '%s "%s %s/%s %s %d %d"',
-            $clientIp,
-            $method,
-            $path,
-            $queryString,
-            $httpVersion,
-            $statusCode,
-            $responseSize
-        );
+        $message = "{$clientIp} \"{$method} {$path}/{$queryString} {$httpVersion} {$statusCode} {$responseSize}\"";
 
         $this->logRequest(
             $statusCode,
