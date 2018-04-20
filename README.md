@@ -9,8 +9,6 @@ https://packagist.org/packages/uniplaces/request-logger-bundle
 $ composer require uniplaces/request-logger-bundle
 ```
 
-
-
 Log data:
 
 * method
