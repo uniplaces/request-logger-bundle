@@ -3,6 +3,7 @@
     "description": "Symfony bundle to log information about the request like method, uri, latency",
     "type": "bundle",
     "require": {
+        "php": "^7.1.0",
         "symfony/http-kernel": "^4.0",
         "psr/log": "^1.0",
         "symfony/config": "^4.0",
