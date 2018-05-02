@@ -10,6 +10,9 @@ This is an example of a log:
 ![alt text](example_log.png)
 
 ### Packagist
+[![Latest Stable Version](https://poser.pugx.org/uniplaces/request-logger-bundle/v/stable?format=flat-square)](https://packagist.org/packages/uniplaces/request-logger-bundle)
+[![Total Downloads](https://poser.pugx.org/uniplaces/request-logger-bundle/downloads?format=flat-square)](https://packagist.org/packages/uniplaces/request-logger-bundle)
+[![License](https://poser.pugx.org/uniplaces/request-logger-bundle/license?format=flat-square)](https://packagist.org/packages/uniplaces/request-logger-bundle)
 
 https://packagist.org/packages/uniplaces/request-logger-bundle
 
