@@ -1,5 +1,7 @@
 # Uniplaces Request Logger Bundle
 
+[![StyleCI](https://styleci.io/repos/129761376/shield?branch=master)](https://styleci.io/repos/129761376)
+
 This project is a symfony bundle that can be added to other projects to log api requests.
 It logs request information like method, uri, latency.
 
