@@ -1,13 +1,12 @@
 services:
-    request_logger_bundle.request_logger:
-        class: Uniplaces\RequestLoggerBundle\EventListener\RequestLoggerEventListener
-        arguments: ["@logger"]
+    _defaults:
+        autowire: true
+        public: false
+        autoconfigure: true
+
+    Uniplaces\RequestLoggerBundle\EventListener\RequestLoggerEventListener:
         tags:
             -
                 name: kernel.event_listener
-                event: kernel.request
-                method: onRequest
-            -
-                name: kernel.event_listener
-                event: kernel.terminate
-                method: onTerminate
+                event: kernel.response
+                method: onResponse

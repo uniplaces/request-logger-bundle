@@ -1,4 +1,4 @@
-# Uniplaces Request Logger Bundle
+# Request Logger Bundle
 
 [![StyleCI](https://styleci.io/repos/129761376/shield?branch=master)](https://styleci.io/repos/129761376)
 
