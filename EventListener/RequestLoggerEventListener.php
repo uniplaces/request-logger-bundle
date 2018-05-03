@@ -47,7 +47,7 @@ final class RequestLoggerEventListener
             [
                 'method' => $request->getMethod(),
                 'path' => $path,
-                'request_uri' => $request->getRequestUri(),
+                'uri' => $request->getRequestUri(),
                 'content-type' => $contentType,
                 'latency' => $this->getTime($request),
                 'client-ip' => $clientIp,
@@ -62,7 +62,7 @@ final class RequestLoggerEventListener
      *
      * @return float|null
      */
-    public function getTime(Request $request) : ?float
+    public function getTime(Request $request): ?float
     {
         if (!$request->server) {
             return null;
@@ -73,9 +73,8 @@ final class RequestLoggerEventListener
             $request->server->get('REQUEST_TIME')
         );
         $time = microtime(true) - $startTime;
-        $time = round($time * 1000);
 
-        return (float) $time;
+        return round($time * 1000);
     }
 
     /**
