@@ -39,8 +39,8 @@ final class RequestLoggerEventListener
         $statusCode = $response->getStatusCode();
         $message = \sprintf(
             'Response %s for "%s %s"',
-            $statusCode, 
-            $request->getMethod(), 
+            $statusCode,
+            $request->getMethod(),
             $request->getRequestUri()
         );
 
